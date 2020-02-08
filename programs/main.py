@@ -15,7 +15,7 @@ LED_PIN = 18          # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN = 10        # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10          # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 192  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -62,7 +62,7 @@ def rainbow(strip, wait_ms=20, iterations=1):
         time.sleep(wait_ms / 1000.0)
 
 
-def rainbowCycle(strip, wait_ms=40, iterations=20):
+def rainbowCycle(strip, wait_ms=20, iterations=100):
     """Draw rainbow that uniformly distributes itself across all pixels."""
     for j in range(256 * iterations):
         for i in range(strip.numPixels()):
