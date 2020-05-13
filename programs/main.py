@@ -83,6 +83,65 @@ def theaterChaseRainbow(strip, wait_ms=50):
             for i in range(0, strip.numPixels(), 3):
                 strip.setPixelColor(i + q, 0)
 
+def pink(strip):
+    "Simply pink"
+
+    for i in range(0, strip.numPixels()):
+        strip.setPixelColor(i, wheel(100))
+        
+    strip.show()
+    
+def america(strip, wait_ms=50):
+    "Now with 5% more Bald Eagle!"
+    
+    start_num = 60
+    num_pixels = strip.numPixels() - start_num
+    
+    split1 = start_num + (num_pixels // 3)
+    split2 = start_num + ((num_pixels // 3) * 2)
+    
+    for i in range(start_num, split1):
+        strip.setPixelColor(i, Color(255,0,0))
+    
+    for i in range(split1, split2):
+        strip.setPixelColor(i, Color(100,100,100))
+    
+    for i in range(split2, strip.numPixels()):
+        strip.setPixelColor(i, Color(0,0,255))
+    
+    strip.show()
+
+def americaCycle(strip, wait_ms=501):
+    "Now with 50% more Bald Eagle!"
+    color_red = Color(255,0,0)
+    color_white = Color(100,100,100)
+    color_blue = Color(0,0,255)
+
+    start_1 = 60
+    # num_pixels = 300 - start_1 
+    num_pixels = strip.numPixels() - start_1
+    interval = (num_pixels // 3)
+    start_2 = start_1 + interval # 140
+    start_3 = start_2 + interval # 220
+
+    for i in range(0,num_pixels):
+        pixel_red = (start_1 + i) % strip.numPixels()
+        pixel_white = (start_2 + i) % strip.numPixels()
+        pixel_blue = (start_3 + i) % strip.numPixels()
+
+        if pixel_red < start_1: pixel_red += start_1
+
+        if pixel_white < start_2: pixel_white += start_1
+
+        if pixel_blue < start_3: pixel_blue += start_1
+        
+        strip.setPixelColor(pixel_red, color_red)
+        strip.setPixelColor(pixel_white, color_white)
+        strip.setPixelColor(pixel_blue, color_blue)
+
+        print('i: '+ format(i) + '  red: ' + format(pixel_red) + '   white: ' + format(pixel_white) + '  blue: ' + format(pixel_blue))
+        strip.show()
+        time.sleep(0.5)
 
 # Main program logic follows:
 if __name__ == '__main__':
@@ -103,19 +162,15 @@ if __name__ == '__main__':
     try:
 
         while True:
-#           print('Color wipe animations.')
-#           colorWipe(strip, Color(255, 0, 0))  # Red wipe
-#           colorWipe(strip, Color(0, 255, 0))  # Blue wipe
-#           colorWipe(strip, Color(0, 0, 255))  # Green wipe
-#           print('Theater chase animations.')
-#           theaterChase(strip, Color(127, 127, 127))  # White theater chase
-#           theaterChase(strip, Color(127, 0, 0))  # Red theater chase
-#           theaterChase(strip, Color(0, 0, 127))  # Blue theater chase
-            print('Rainbow animations.')
-#            rainbow(strip)
-            rainbowCycle(strip)
-#	    print('Rainbow chase.')
-#           theaterChaseRainbow(strip)
+            # print('Rainbow animations.')
+            # rainbowCycle(strip)
+            
+            # pink(strip)
+            
+            # america(strip)
+            americaCycle(strip)
+
+
 
     except KeyboardInterrupt:
         if args.clear:
