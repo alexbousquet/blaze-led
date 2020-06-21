@@ -15,7 +15,7 @@ LED_PIN = 18          # GPIO pin connected to the pixels (18 uses PWM!).
 # LED_PIN = 10        # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10          # DMA channel to use for generating signal (try 10)
-LED_BRIGHTNESS = 192  # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -111,7 +111,7 @@ def america(strip, wait_ms=50):
     
     strip.show()
 
-def americaCycle(strip, wait_ms=501):
+def americaCycle(strip, wait_ms=500):
     "Now with 50% more Bald Eagle!"
     color_red = Color(255,0,0)
     color_white = Color(100,100,100)
@@ -141,7 +141,35 @@ def americaCycle(strip, wait_ms=501):
 
         print('i: '+ format(i) + '  red: ' + format(pixel_red) + '   white: ' + format(pixel_white) + '  blue: ' + format(pixel_blue))
         strip.show()
-        time.sleep(0.5)
+        time.sleep(wait_ms / 1000.0)
+
+def colorCycle(strip, color1, color2, color3, wait_ms=200):
+    "Distributed three color chase"
+
+    start_1 = 60
+    # num_pixels = 300 - start_1 
+    num_pixels = strip.numPixels() - start_1
+    interval = (num_pixels // 3)
+    start_2 = start_1 + interval # 140
+    start_3 = start_2 + interval # 220
+
+    for i in range(0,num_pixels):
+        pixel1 = (start_1 + i) % strip.numPixels()
+        pixel2 = (start_2 + i) % strip.numPixels()
+        pixel3 = (start_3 + i) % strip.numPixels()
+
+        if pixel1 < start_1: pixel1 += start_1
+
+        if pixel2 < start_2: pixel2 += start_1
+
+        if pixel3 < start_3: pixel3 += start_1
+        
+        strip.setPixelColor(pixel1, color1)
+        strip.setPixelColor(pixel2, color2)
+        strip.setPixelColor(pixel3, color3)
+
+        strip.show()
+        time.sleep(wait_ms / 1000.0)
 
 # Main program logic follows:
 if __name__ == '__main__':
@@ -160,18 +188,16 @@ if __name__ == '__main__':
         print('Use "-c" argument to clear LEDs on exit')
 
     try:
-
         while True:
-            # print('Rainbow animations.')
             # rainbowCycle(strip)
-            
             # pink(strip)
-            
             # america(strip)
-            americaCycle(strip)
+            #americaCycle(strip)
+            colorCycle(strip,wheel(100),wheel(190),wheel(40))
+
 
 
 
     except KeyboardInterrupt:
         if args.clear:
-            colorWipe(strip, Color(0, 0, 0), 10)
+            colorWipe(strip, Color(0, 0, 0), 5)
