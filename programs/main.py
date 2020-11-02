@@ -139,7 +139,7 @@ def americaCycle(strip, wait_ms=500):
         strip.setPixelColor(pixel_white, color_white)
         strip.setPixelColor(pixel_blue, color_blue)
 
-        print('i: '+ format(i) + '  red: ' + format(pixel_red) + '   white: ' + format(pixel_white) + '  blue: ' + format(pixel_blue))
+        # print('i: '+ format(i) + '  red: ' + format(pixel_red) + '   white: ' + format(pixel_white) + '  blue: ' + format(pixel_blue))
         strip.show()
         time.sleep(wait_ms / 1000.0)
 
@@ -183,6 +183,8 @@ if __name__ == '__main__':
     # Intialize the library (must be called once before other functions).
     strip.begin()
 
+    wait_time = input("Enter speed in milliseconds:")
+
     print('Press Ctrl-C to quit.')
     if not args.clear:
         print('Use "-c" argument to clear LEDs on exit')
@@ -193,7 +195,7 @@ if __name__ == '__main__':
             # pink(strip)
             # america(strip)
             #americaCycle(strip)
-            colorCycle(strip,wheel(100),wheel(190),wheel(40))
+            colorCycle(strip,wheel(100),wheel(190),wheel(40),wait_time)
 
 
 
